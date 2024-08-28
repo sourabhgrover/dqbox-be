@@ -11,13 +11,13 @@ const app = express();
 app.use(cors());
 
 // Connect to the database
-connectDB();
+// connectDB();
 
 // Middleware
 // app.use(bodyParser.json());
 
 // Import routes
-// const usersRoutes = require("./src/routes/usersRoutes");
+const blobStorageRoutes = require("./src/routes/blobStorageRoutes");
 // const dataBricksSchemaRoutes = require("./src/routes/dataBricksSchemaRoutes");
 // const tableListRoutes = require("./src/routes/tableListRoutes");
 // const businessTermRoutes = require("./src/routes/businessTermRoutes.js")
@@ -28,6 +28,7 @@ app.use(express.json());
 
 app.get('/', (req, res) => res.send('API Running'));
 // Use routes with specific base paths
+app.use("/api/blobs", blobStorageRoutes);
 // app.use("/api/users", usersRoutes);
 // app.use("/api/schemas", dataBricksSchemaRoutes);
 // app.use("/api/tables", tableListRoutes);
