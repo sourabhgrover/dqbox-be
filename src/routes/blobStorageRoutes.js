@@ -17,11 +17,11 @@ if (!AZURE_STORAGE_CONNECTION_STRING) {
   process.exit(1); // Exit the process if connection string is missing
 }
 
+const containerName = 'raw';
+
 router.get('/', async (req, res) => {
   
   try {
-    const containerName = 'raw';
-
     // Create BlobServiceClient
     const blobServiceClient = BlobServiceClient.fromConnectionString(AZURE_STORAGE_CONNECTION_STRING);
     const containerClient = blobServiceClient.getContainerClient(containerName);
@@ -42,13 +42,11 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/upload', upload.single('file'), async (req, res) => {
-  console.log('File:', req.file);
 
   if (!req.file) {
     return res.status(400).json({ error: 'No file uploaded' });
   }
   try {
-    const containerName = 'raw';
     const blobServiceClient = BlobServiceClient.fromConnectionString(AZURE_STORAGE_CONNECTION_STRING);
     const containerClient = blobServiceClient.getContainerClient(containerName);
     const blockBlobClient = containerClient.getBlockBlobClient(req.file.originalname);
@@ -75,7 +73,7 @@ router.get('/read-xlsx/:blobName', async (req, res) => {
   try {
     const blobName = req.params.blobName;
     const blobServiceClient = BlobServiceClient.fromConnectionString(AZURE_STORAGE_CONNECTION_STRING);
-    const containerClient = blobServiceClient.getContainerClient('raw');
+    const containerClient = blobServiceClient.getContainerClient(containerName);
     const blockBlobClient = containerClient.getBlockBlobClient(blobName);
 
     // Download the blob content to a buffer
