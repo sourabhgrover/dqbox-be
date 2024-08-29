@@ -18,22 +18,13 @@ app.use(cors());
 
 // Import routes
 const blobStorageRoutes = require("./src/routes/blobStorageRoutes");
-// const dataBricksSchemaRoutes = require("./src/routes/dataBricksSchemaRoutes");
-// const tableListRoutes = require("./src/routes/tableListRoutes");
-// const businessTermRoutes = require("./src/routes/businessTermRoutes.js")
-// const useCaseRoutes = require("./src/routes/useCaseRoutes.js")
+
 
 // Middleware to parse JSON bodies
 app.use(express.json());
 
-app.get('/', (req, res) => res.send('API Running'));
 // Use routes with specific base paths
 app.use("/api/blobs", blobStorageRoutes);
-// app.use("/api/users", usersRoutes);
-// app.use("/api/schemas", dataBricksSchemaRoutes);
-// app.use("/api/tables", tableListRoutes);
-// app.use("/api/businessTerms", businessTermRoutes)
-// app.use("/api/useCase", useCaseRoutes)
 
 const PORT = process.env.PORT || 3000;
 
