@@ -40,8 +40,8 @@ Description: Lists all blobs in the specified container.
 
 Response:
 
-200 OK: Returns a JSON array of blobs.
-500 Internal Server Error: Returns an error message if there is an issue fetching blobs.
+- **200 OK**: Returns a JSON array of blobs.
+- **500 Internal Server Error**: Returns an error message if there is an issue fetching blobs.
 
 Example:
 ```
@@ -59,8 +59,8 @@ form-data:
 file: The file to be uploaded.
 Response:
 
-200 OK: Returns a success message if the file is uploaded successfully.
-500 Internal Server Error: Returns an error message if there is an issue uploading the file.
+- 200 OK: Returns a success message if the file is uploaded successfully.
+- 500 Internal Server Error: Returns an error message if there is an issue uploading the file.
 Example:
 ```
 curl -X POST http://localhost:3000/upload -F "file=@path_to_your_file"
@@ -76,8 +76,8 @@ Parameters:
 blobName: The name of the blob (file) to be read.
 Response:
 
-200 OK: Returns the content of the .xlsx file as JSON.
-500 Internal Server Error: Returns an error message if there is an issue reading the file.
+- 200 OK: Returns the content of the .xlsx file as JSON.
+- 500 Internal Server Error: Returns an error message if there is an issue reading the file.
 Example:
 ```
 curl -X GET http://localhost:3000/read-xlsx/your_blob_name.xlsx
