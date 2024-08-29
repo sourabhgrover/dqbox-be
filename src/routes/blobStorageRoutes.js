@@ -1,6 +1,10 @@
 const { BlobServiceClient } = require('@azure/storage-blob');
 const express = require('express');
 const router = express.Router();
+const multer = require('multer');
+const fs = require('fs');
+const path = require('path');
+const upload = multer({ dest: 'uploads/' });
 
 
 
@@ -25,7 +29,8 @@ router.get('/', async (req, res) => {
 
     // List blobs
     for await (const blob of containerClient.listBlobsFlat()) {
-      blobList.push(blob.name);
+      // console.log(blob);
+      blobList.push(blob);
     }
 
     res.json(blobList);
@@ -34,6 +39,35 @@ router.get('/', async (req, res) => {
     res.status(500).json({ error: 'Error fetching blobs' });
   }
 });
+
+router.post('/upload', upload.single('file'), async (req, res) => {
+  console.log('File:', req.file);
+
+  if (!req.file) {
+    return res.status(400).json({ error: 'No file uploaded' });
+  }
+  try {
+    const containerName = 'raw';
+    const blobServiceClient = BlobServiceClient.fromConnectionString(AZURE_STORAGE_CONNECTION_STRING);
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+    const blockBlobClient = containerClient.getBlockBlobClient(req.file.originalname);
+  
+    // Corrected filePath assignment
+    const filePath = path.join(__dirname, '..', '..', 'uploads', req.file.filename);
+    const fileStream = fs.createReadStream(filePath);
+    const fileSize = fs.statSync(filePath).size;
+  
+    await blockBlobClient.uploadStream(fileStream, fileSize);
+  
+    // Clean up the file from the local server
+    fs.unlinkSync(filePath);
+  
+    res.status(200).json({ message: 'File uploaded successfully' });
+  } catch (error) {
+    console.error("Error uploading file:", error.message);
+    res.status(500).json({ error: 'Error uploading file' });
+  }
+  });
 
 
 
