@@ -27,3 +27,21 @@ Follow these steps to set up the project:
    npm install
    ```
 
+3. **Set the environment variable:** 
+   ```sh
+   export AZURE_STORAGE_CONNECTION_STRING="your_connection_string"
+   ```
+
+API Endpoints
+1. List Blobs
+Endpoint: GET /
+
+Description: Lists all blobs in the specified container.
+
+Response:
+
+200 OK: Returns a JSON array of blobs.
+500 Internal Server Error: Returns an error message if there is an issue fetching blobs.
+
+Example:
+
