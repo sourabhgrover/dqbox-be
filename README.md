@@ -45,7 +45,7 @@ Response:
 
 Example:
 ```
-curl -X GET http://localhost:3000/api/blob
+curl -X GET http://localhost:3000/api/blobs
 ```
 
 2. Upload File
@@ -63,7 +63,7 @@ Response:
 - 500 Internal Server Error: Returns an error message if there is an issue uploading the file.
 Example:
 ```
-curl -X POST http://localhost:3000/upload -F "file=@path_to_your_file"
+curl -X POST http://localhost:3000/api/blobs/upload -F "file=@path_to_your_file"
 ```
 
 3. Read XLSX File
@@ -80,7 +80,7 @@ Response:
 - 500 Internal Server Error: Returns an error message if there is an issue reading the file.
 Example:
 ```
-curl -X GET http://localhost:3000/read-xlsx/your_blob_name.xlsx
+curl -X GET http://localhost:3000/api/blobs/read-xlsx/your_blob_name.xlsx
 ```
 
 
