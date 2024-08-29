@@ -30,7 +30,6 @@ router.get('/', async (req, res) => {
 
     // List blobs
     for await (const blob of containerClient.listBlobsFlat()) {
-      // console.log(blob);
       blobList.push(blob);
     }
 
