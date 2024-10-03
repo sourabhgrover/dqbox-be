@@ -1,11 +1,15 @@
 
 import express from 'express';
+import cors from 'cors';
 import connectDB from './config/db.js';
 import config from './config/config.js';
 import userRoutes from './routes/userRoutes.js';
 import connectionRoutes from './routes/connectionRoutes.js';
 
 const app = express();
+
+// CORS Middleware
+app.use(cors());
 
 // Connect to MongoDB
 connectDB();
