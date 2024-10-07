@@ -17,6 +17,11 @@ connectDB();
 // Middleware
 app.use(express.json());
 
+// THIS IS THE TEST ROUTE
+app.get('/', (req, res) => {
+  res.send('Hello, World!');
+});
+
 // Your routes and other middleware here
 app.use('/api/users', userRoutes);
 // Connection Routes
