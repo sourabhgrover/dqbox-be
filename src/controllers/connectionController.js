@@ -63,14 +63,20 @@ export const getConnectionById = async (req, res) => {
 export const updateConnection = async (req, res) => {
   try {
     const { name, type, dbUrl, username, password, authType } = req.body;
-    let fileUrl = null;
-    let logoUrl = null;
 
-    if (type === "excel" || (type === "csv" && req.files?.file)) {
+    // Fetch the existing connection
+    const existingConnection = await Connection.findById(req.params.id);
+    if (!existingConnection) {
+      return res.status(404).json({ error: "Connection not found" });
+    }
+    let fileUrl = existingConnection.fileUrl;
+    let logoUrl = existingConnection.logoUrl;
+
+    if ((type === "excel" || type === "csv") && req.files?.file) {
       fileUrl = await connectionService.uploadFileToBlob(req.files.file[0]);
     }
 
-    if (req.files?.logo) {
+    if (req.files?.logo && req.files.logo.length > 0) {
       logoUrl = await connectionService.uploadFileToBlob(req.files.logo[0]);
     }
 
@@ -83,6 +89,7 @@ export const updateConnection = async (req, res) => {
       return res.status(404).json({ error: "Connection not found" });
     res.json(updatedConnection);
   } catch (error) {
+    console.log(error);
     logger.error(`Failed to update connection: ${error.message}`);
     res.status(500).json({ error: "Failed to update connection" });
   }
